@@ -56,7 +56,27 @@ void print_list(list_node *list){
 
 void sort(list_node *list){
     
-    //dar loop pela lista
-    while(list != NULL){
+    // 0 --> while(1)
+    // 1 --> dar loop pela lista
+    
+    //função para comparar as datas
+    //  int date_compare(DATE *t1, DATE *t2) {
+    // returns 1 if t1 greater than t2, -1 if t1 < t2, 0 if equal
+    
+    //if (t1->month > t2->month) return(1);
+    //if (t1->month < t2->month) return(-1);
+    
+    // month aslo matches. so check day
+    
+    //if (t1->day > t2->day) return(1);
+    //if (t1->day < t2->day) return(-1);
+    
+    // day also matches
+    //return(0);
+    
+    //2 --> comparar a data de prev com a next
+    //3 --> se for maior trocar
+    
+}
         
     
