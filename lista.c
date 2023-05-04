@@ -54,7 +54,7 @@ void print_list(list_node *list){
     }
 }
 
-void sort(list_node *list){
+void sort_new(list_node *list){
     
     // 0 --> while(1)
     // 1 --> dar loop pela lista
@@ -79,4 +79,10 @@ void sort(list_node *list){
     
 }
         
+void sort_old(list_node *list){
     
+    //0 --> while(1)
+    //1 --> dar loop pela lista 
+    //2 --> comparar usando a função date_compare
+    //3 --> se for menor trocar
+}
