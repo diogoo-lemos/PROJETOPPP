@@ -13,9 +13,5 @@ typedef struct list_node{
 
 }list_node;
 
-typedef struct list_pr_node{
-    struct list_node ln;
-    struct list_pr_node *next;
-}list_pr_node;
 
 #endif //PROJETOPPP_STRUCT_H
