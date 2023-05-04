@@ -1,7 +1,7 @@
 #ifndef PROJETOPPP_STRUCT_H
 #define PROJETOPPP_STRUCT_H
 
-typedef struct list_node{
+typedef struct data{
     char name[50];
     char type[2];
     double min;
@@ -9,6 +9,10 @@ typedef struct list_node{
     double day;
     double month;
     int num;
+}data;
+
+typedef struct list_node{
+    data d;
     struct list_node *next;
 
 }list_node;
