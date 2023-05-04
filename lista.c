@@ -12,9 +12,9 @@ void search_element(list_node **list, int key, list_node **prev, list_node **cur
     }
 }
 
-void insert(type_list_node **list, double num, type_list_operations *op){
-    type_list_node *node = (type_list_node *)malloc(sizeof(type_list_node));
-    type_list_node *prev, *cur;
+void insert(list_node **list, char name, char type, double min, double hour, double day, double month, int num){
+   list_node *node = (list_node *)malloc(sizeof(list_node));
+    list_node *prev, *cur;
 
     if(node != NULL){
         node->num = num;
