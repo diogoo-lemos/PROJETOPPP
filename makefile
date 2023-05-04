@@ -1,8 +1,8 @@
 CC			= gcc
 CFLAGS		=
 LDFLAGS		= 
-OBJFILES 	= function.o server.o
-TARGET		= news_server
+OBJFILES 	= lista.o main.o
+TARGET		= ppp_project
 
 all: $(TARGET)
 
