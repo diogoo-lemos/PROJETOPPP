@@ -49,7 +49,7 @@ void remove_element(list_node **list, int key) {
 void print_list(list_node *list){
 
     while(list != NULL){
-        printf("Name: %s, Time: \n", list->name);
+        printf("Name: %s, Time: %lf:%lf %lf/%lf \n", list->name, list->hour, list->min, list->day, lista->month);
         list = list->next;
     }
 }
