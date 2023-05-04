@@ -45,3 +45,11 @@ void remove_element(list_node **list, int key) {
         free(cur);
     }
 }
+
+void print_list(list_node *list){
+
+    while(list != NULL){
+        printf("Name: %s, Time: \n", list->name);
+        list = list->next;
+    }
+}
