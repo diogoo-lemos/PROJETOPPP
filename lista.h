@@ -1,7 +1,7 @@
 #ifndef PROJETOPPP_LISTAS_H
 #define PROJETOPPP_LISTAS_H
 
-#include "structs.h"
+#include "struct.h"
 
 void search_element()list_node **list, int key, list_node **prev, list_node **cur);
 void insert(list_node **list, char nome, char tipo, char time, int num);
