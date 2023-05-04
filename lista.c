@@ -53,3 +53,10 @@ void print_list(list_node *list){
         list = list->next;
     }
 }
+
+void sort(list_node *list){
+    
+    //dar loop pela lista
+    while(list != NULL){
+        
+    
