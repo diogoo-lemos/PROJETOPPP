@@ -12,6 +12,25 @@ void search_element(list_node **list, int key, list_node **prev, list_node **cur
     }
 }
 
+void insert(type_list_node **list, double num, type_list_operations *op){
+    type_list_node *node = (type_list_node *)malloc(sizeof(type_list_node));
+    type_list_node *prev, *cur;
+
+    if(node != NULL){
+        node->num = num;
+        search_element(list, num, &prev, &cur);
+
+        if(prev == NULL){
+            node->next = cur;
+            *list = node;
+        }
+        else{
+            node->next = cur;
+            prev->next = node;
+        }
+    }
+}
+
 void remove_element(list_node **list, int key) {
     list_node *prev, *cur;
 
