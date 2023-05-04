@@ -1,5 +1,5 @@
-CC			= gcc
-CFLAGS		=
+CC		= gcc
+CFLAGS		= -Wall -WExtra
 LDFLAGS		= 
 OBJFILES 	= lista.o main.o
 TARGET		= ppp_project
