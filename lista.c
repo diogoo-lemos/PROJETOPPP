@@ -1,18 +1,32 @@
 #include <stdlib.h>
+
 #include "struct.h"
-#include "lista.h"
 
-void search_element(list_node **list, int key, list_node **prev, list_node **cur) {
-    prev = NULL;
-    *cur = *list;
+void search_element(List list, int month, int day, int hour, int min, List *prev, List *cur) {
+    *prev = list;
+    *cur = list->next;
 
-    while ((*cur) != NULL && (*cur)->num < key) {
+    while ((*cur) != NULL && (*cur)->d.month < month) {
         *prev = *cur;
         *cur = (*cur)->next;
     }
+    while ((*cur) != NULL && (*cur)->d.day < day) {
+        *prev = *cur;
+        *cur = (*cur)->next;
+    }
+    while ((*cur) != NULL && (*cur)->d.hour < hour) {
+        *prev = *cur;
+        *cur = (*cur)->next;
+    }
+    while ((*cur) != NULL && (*cur)->d.min < min) {
+        *prev = *cur;
+        *cur = (*cur)->next;
+    }
+    if ((*cur) != NULL && ((*cur)->d.month != month || (*cur)->d.day != day || (*cur)->d.hour != hour || (*cur)->d.min != min))
+        *cur = NULL; /* elemento não encontrado*/
 }
 
-void insert(list_node **list, char name, char type, double min, double hour, double day, double month, int num){
+void insert(List list, char name, char type, double min, double hour, double day, double month, int num){
    list_node *node = (list_node *)malloc(sizeof(list_node));
     list_node *prev, *cur;
 
@@ -49,7 +63,7 @@ void remove_element(list_node **list, int key) {
 void print_list(list_node *list){
 
     while(list != NULL){
-        printf("Name: %s, Time: %lf:%lf %lf/%lf \n", list->name, list->hour, list->min, list->day, lista->month);
+        printf("Name: %s, Time: %lf:%lf %lf/%lf \n", list->name, list->hour, list->min, list->day, list->month);
         list = list->next;
     }
 }

@@ -4,11 +4,10 @@
 typedef struct data{
     char name[50];
     char type[2];
-    double min;
-    double hour;
-    double day;
-    double month;
-    int num;
+    int month;
+    int day;
+    int hour;
+    int min;
 }data;
 
 typedef struct list_node{
@@ -17,5 +16,6 @@ typedef struct list_node{
 
 }list_node;
 
+typedef list_node *List;
 
 #endif //PROJETOPPP_STRUCT_H
