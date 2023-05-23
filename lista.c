@@ -1,102 +1,157 @@
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "struct.h"
 
-void search_element(List list, int month, int day, int hour, int min, List *prev, List *cur) {
-    *prev = list;
-    *cur = list->next;
+int days_per_month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-    while ((*cur) != NULL && (*cur)->d.month < month) {
-        *prev = *cur;
-        *cur = (*cur)->next;
+// Converts a date to minutes
+int dateMin(int month, int day, int hour, int min)
+{
+    int minutes = 0;
+
+    // Number of minutes in the months
+    for (int i = 0; i < month - 1; i++)
+    {
+        minutes += days_per_month[i] * 24 * 60;
     }
-    while ((*cur) != NULL && (*cur)->d.day < day) {
-        *prev = *cur;
-        *cur = (*cur)->next;
-    }
-    while ((*cur) != NULL && (*cur)->d.hour < hour) {
-        *prev = *cur;
-        *cur = (*cur)->next;
-    }
-    while ((*cur) != NULL && (*cur)->d.min < min) {
-        *prev = *cur;
-        *cur = (*cur)->next;
-    }
-    if ((*cur) != NULL && ((*cur)->d.month != month || (*cur)->d.day != day || (*cur)->d.hour != hour || (*cur)->d.min != min))
-        *cur = NULL; /* elemento não encontrado*/
+
+    minutes += (day - 1) * 24 * 60; // Days
+    minutes += hour * 60;           // Hours
+    minutes += min;                 // Remaining minutes
+
+    return minutes;
 }
 
-void insert(List list, char name, char type, double min, double hour, double day, double month, int num){
-   list_node *node = (list_node *)malloc(sizeof(list_node));
-    list_node *prev, *cur;
+// Converts minutes to date and prints it
+void printDate(int minutes)
+{
+    int aux_minutes = minutes;
+    int month, hour, day, min;
 
-    if(node != NULL){
-        node->num = num;
-        search_element(list, num, &prev, &cur);
+    // Get month
+    int i = 0;
+    while (aux_minutes >= days_per_month[i] * 24 * 60)
+    {
+        aux_minutes -= days_per_month[i] * 24 * 60;
+        i++;
+    }
+    month = i + 1;
 
-        if(prev == NULL){
-            node->next = cur;
-            *list = node;
-        }
-        else{
-            node->next = cur;
-            prev->next = node;
-        }
+    // Get day
+    i = 1;
+    while (aux_minutes >= 24 * 60)
+    {
+        aux_minutes -= 24 * 60;
+        i++;
+    }
+    day = i;
+
+    // Get hour
+    i = aux_minutes / 60;
+    aux_minutes -= i * 60;
+    hour = i;
+
+    // Get min
+    min = aux_minutes;
+
+    printf("%d/%d %d:%d\n", day, month, hour, min);
+}
+
+// Creates doubly linked list
+list create()
+{
+    list aux;
+    struct Data d = {"", "", 0};
+    aux = (list)malloc(sizeof(Node));
+
+    if (aux != NULL)
+    {
+        aux->d = d;
+        aux->next = NULL;
+        aux->prev = NULL;
+    }
+    return aux;
+}
+
+// Checks if the list is empty
+int isEmpty(list head)
+{
+    if (head->next == NULL)
+        return 1; // Retruns 1 if empty
+    else
+        return 0; // Returns 0 if not
+}
+
+// Destroys the list and frees the space
+list destroy(list head)
+{
+    list temp;
+    while (!isEmpty(head))
+    {
+        temp = head;
+        head = head->next;
+        free(temp);
+    }
+    free(head);
+    return NULL;
+}
+
+// Searches for a place to insert a new node
+void search(list head, int min, list *prev, list *cur)
+{
+    *prev = head;
+    *cur = head->next;
+
+    while((*cur) != NULL && (*cur)->d.mins < min)
+    {
+        *prev = *cur;
+        *cur = (*cur)->next;
+    }
+    if((*cur) != NULL && (*cur)->d.mins != min)
+    {
+        *cur = NULL;
     }
 }
 
-void remove_element(list_node **list, int key) {
-    list_node *prev, *cur;
-
-    search_element(list, key, &prev, &cur);
-
-    if (cur != NULL && cur->num == key) {
-        if (prev == NULL) {
-            *list = cur->next;
-        } else {
-            prev->next = cur->next;
-        }
+// Deletes a node
+void delete(list head, int min)
+{
+    list prev, cur, next;
+    search(head, min, &prev, &cur);
+    next = cur->next;
+    if(cur != NULL)
+    {
+        prev->next = cur->next;
+        next->prev = cur->prev;
         free(cur);
     }
 }
 
-void print_list(list_node *list){
-
-    while(list != NULL){
-        printf("Name: %s, Time: %lf:%lf %lf/%lf \n", list->name, list->hour, list->min, list->day, list->month);
-        list = list->next;
+// Inserts a node
+void insert(list head, struct Data d)
+{
+    list node, prev, next;
+    node = (list)malloc(sizeof(Node));
+    if(node != NULL)
+    {
+        node->d = d;
+        search(head, d.mins, &prev, &next);
+        node->next = next;
+        node->prev = prev;
+        prev->next = node;
+        next->prev = node;
     }
 }
 
-void sort_new(list_node *list){
-    
-    // 0 --> while(1)
-    // 1 --> dar loop pela lista
-    
-    //função para comparar as datas
-    //  int date_compare(DATE *t1, DATE *t2) {
-    // returns 1 if t1 greater than t2, -1 if t1 < t2, 0 if equal
-    
-    //if (t1->month > t2->month) return(1);
-    //if (t1->month < t2->month) return(-1);
-    
-    // month aslo matches. so check day
-    
-    //if (t1->day > t2->day) return(1);
-    //if (t1->day < t2->day) return(-1);
-    
-    // day also matches
-    //return(0);
-    
-    //2 --> comparar a data de prev com a next
-    //3 --> se for maior trocar
-    
-}
-        
-void sort_old(list_node *list){
-    
-    //0 --> while(1)
-    //1 --> dar loop pela lista 
-    //2 --> comparar usando a função date_compare
-    //3 --> se for menor trocar
+// Prints every data stored on the list
+void printList(list head)
+{
+    list aux = aux->next;
+    while(aux)
+    {
+        printf("Nome: %s - Tipo: %s - Data: ", aux->d.name, aux->d.type);
+        printDate(aux->d.mins);
+        aux = aux->next;
+    }
 }

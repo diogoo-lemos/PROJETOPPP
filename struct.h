@@ -1,21 +1,19 @@
 #ifndef PROJETOPPP_STRUCT_H
 #define PROJETOPPP_STRUCT_H
 
-typedef struct data{
+typedef struct Data{
     char name[50];
-    char type[2];
-    int month;
-    int day;
-    int hour;
-    int min;
-}data;
+    char type[2]; // M para manutenção e L para lavagem
+    int mins;
+}Data;
 
-typedef struct list_node{
-    data d;
+typedef struct Node{
+    struct list_node *prev;
+    struct Data d;
     struct list_node *next;
 
-}list_node;
+}Node;
 
-typedef list_node *List;
+typedef Node *list;
 
 #endif //PROJETOPPP_STRUCT_H

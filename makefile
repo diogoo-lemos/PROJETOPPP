@@ -1,4 +1,4 @@
-CC		= gcc
+CC			= gcc
 CFLAGS		= -Wall -Wextra
 LDFLAGS		= 
 OBJFILES 	= lista.o main.o

@@ -3,11 +3,10 @@
 
 #include "struct.h"
 
-void search_element()list_node **list, int key, list_node **prev, list_node **cur);
-void insert(list_node **list, char nome, char tipo, double min, double hour, double day, double month, int num);
-void remove_element(list_node **list, int key);
-void print_list(list_node *list);
-
+int dateMin(int month, int day, int hour, int min);
+void printDate(int minutes);
+list create();
+int isEmpty(list head);
+list destroy(list head);
 
 #endif //PROJETOPPP_LISTAS_H
-
