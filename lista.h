@@ -8,5 +8,9 @@ void printDate(int minutes);
 list create();
 int isEmpty(list head);
 list destroy(list head);
+void search(list head, int min, list *prev, list *cur);
+void delete(list head, int min);
+void insert(list head, struct Data d);
+void printList(list head);
 
 #endif //PROJETOPPP_LISTAS_H

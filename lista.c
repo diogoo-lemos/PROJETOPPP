@@ -55,7 +55,15 @@ void printDate(int minutes)
     // Get min
     min = aux_minutes;
 
-    printf("%d/%d %d:%d\n", day, month, hour, min);
+    if(min == 0)
+    {
+        printf("%d/%d %d:%d0\n", day, month, hour, min);
+    }
+    else
+    {
+        printf("%d/%d %d:%d\n", day, month, hour, min);
+    }
+    
 }
 
 // Creates doubly linked list
@@ -131,23 +139,35 @@ void delete(list head, int min)
 // Inserts a node
 void insert(list head, struct Data d)
 {
-    list node, prev, next;
+    list node, prev, cur, next;
     node = (list)malloc(sizeof(Node));
     if(node != NULL)
     {
         node->d = d;
-        search(head, d.mins, &prev, &next);
-        node->next = next;
-        node->prev = prev;
-        prev->next = node;
-        next->prev = node;
+        search(head, d.mins, &prev, &cur);
+        next = prev->next;
+        
+        if(next != NULL)
+        {
+            node->next = next;
+            node->prev = prev;
+            prev->next = node;
+            next->prev = node;
+        }
+        else
+        {
+            prev->next = node;
+            node->prev = prev;
+            node->next = NULL;
+        }
     }
 }
 
 // Prints every data stored on the list
 void printList(list head)
 {
-    list aux = aux->next;
+    list aux = head->next;
+    int i = 0;
     while(aux)
     {
         printf("Nome: %s - Tipo: %s - Data: ", aux->d.name, aux->d.type);
