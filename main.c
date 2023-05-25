@@ -15,10 +15,48 @@ int main()
     {
         printf("Indique a operação: \n");
         scanf("%s", operation);
+        getchar(); // Consume newline character
 
         if (strcmp(operation, "RESERVAR") == 0)
         {
-            // Fazer uma reserva (unfinished)
+            // Fazer uma reserva
+            char str[25];
+            char name[10];
+            char type[2];
+            int month, day, hour, min;
+            printf("Introduza o nome, tipo e data da marcação no seguinte formato: Nome/tipo DD/MM HH:MM\n");
+            fgets(str, 25, stdin);
+            printf("%s\n", str);
+            int a = sscanf(str, "%[^/]/%[^ ] %d/%d %d:%d", name, type, &day, &month, &hour, &min);
+            if(a != 6)
+            {
+                printf("Name: %s\n", name);
+                printf("Type: %s\n", type);
+                printf("Day: %d\n", day);
+                printf("Month: %d\n", month);
+                printf("Hour: %d\n", hour);
+                printf("Minutes: %d\n", min);
+
+                printf("Formato introduzido errado ou erro na leitura.\n");
+            }
+            else if((min != 0  && min != 30) || 8 > hour || hour >= 18)
+            {
+                printf("hour: %d", hour);
+                printf("minutes: %d", min);
+                printf("Horário inválido.\n");
+            }
+            else if(strcmp(type, "m") == 0 && hour == 17 && min == 30)
+            {
+                printf("Horário inválido.\n");
+            }
+            else
+            {
+                struct Data d;
+                d.mins = dateMin(month, day, hour, min);
+                strcpy(d.name, name);
+                strcpy(d.type, type);
+                insert(head, d);
+            }
         }
         else if (strcmp(operation, "CANCELAR") == 0)
         {
