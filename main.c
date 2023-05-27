@@ -24,7 +24,7 @@ int main()
             char name[10];
             char type[2];
             int month, day, hour, min;
-            printf("Introduza o nome, tipo e data da marcação no seguinte formato: Nome/tipo DD/MM HH:MM\n");
+            printf("Introduza o nome, tipo e data da marcação no seguinte formato: Nome/tipo(l para lavagem, m para marcação) DD/MM HH:MM\n");
             fgets(str, 25, stdin);
             int a = sscanf(str, "%[^/]/%[^ ] %d/%d %d:%d", name, type, &day, &month, &hour, &min);
             if(a != 6)
@@ -78,11 +78,29 @@ int main()
         }
         else if (strcmp(operation, "LISTAR_CLIENTE") == 0)
         {
-            // Listar todas as marcações de um cliente (unfinished)
+            // Listar todas as marcações de um cliente. (implementar pré-reserva)
+            char name[10];
+            printf("Introduza um nome:\n");
+            scanf("%s", name);
+
+            list aux = head->next;
+            int month, day, hour, min;
+            int i = 0;
+            while(aux)
+            {
+                if(strcmp(aux->d.name, name) == 0)
+                {
+                    printf("Tipo: %s - ", aux->d.type);
+                    printDate(aux->d.mins, &month, &day, &hour, &min);
+                }
+                aux = aux->next;
+            }
         }
         else if (strcmp(operation, "CONCLUIR") == 0)
         {
-            // Concluir uma lavagem ou manutenção (unfinished)
+            // Concluir uma lavagem ou manutenção (implementar pré-reserva)
+            delete(head, 0);    // Passing 0 as argument so it always deletes the first node of the list
+            printf("Lavagem mais recente concluída.\n");
         }
         else if (strcmp(operation, "CARREGAR") == 0)
         {
@@ -124,7 +142,7 @@ int main()
 
                 list aux = head->next;
 
-                printf("Dados a carregar:\n");
+                printf("Marcações a carregar:\n");
                 while(aux)
                 {
                     printDate(aux->d.mins, &m, &d, &h, &mn);

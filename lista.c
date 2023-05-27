@@ -54,7 +54,7 @@ void printDate(int minutes, int *month, int *hour, int *day, int *min)
     // Get min
     *min = aux_minutes;
 
-    if(min == 0)
+    if(*min == 0)
     {
         printf("%d/%d %d:%d0\n", *day, *month, *hour, *min);
     }
@@ -110,27 +110,32 @@ void search(list head, int min, list *prev, list *cur)
     *prev = head;
     *cur = head->next;
 
-    while((*cur) != NULL && (*cur)->d.mins < min)
+    if(min != 0)
     {
-        *prev = *cur;
-        *cur = (*cur)->next;
-    }
-    if((*cur) != NULL && (*cur)->d.mins != min)
-    {
-        *cur = NULL;
+        while((*cur) != NULL && (*cur)->d.mins < min)
+        {
+            *prev = *cur;
+            *cur = (*cur)->next;
+        }
+        if((*cur) != NULL && (*cur)->d.mins != min)
+        {
+            *cur = NULL;
+        }
     }
 }
 
-// Deletes a node
+// Deletes a node (if min = 0 ---> deletes first)
 void delete(list head, int min)
 {
+
     list prev, cur, next;
     search(head, min, &prev, &cur);
     if(cur != NULL)
     {
-        if(cur->next != NULL)
+        next = cur->next;
+        if(next != NULL)
         {
-            prev->next = cur->next;
+            prev->next = next;
             next->prev = prev;
         }
         else
