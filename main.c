@@ -19,24 +19,16 @@ int main()
 
         if (strcmp(operation, "RESERVAR") == 0)
         {
-            // Fazer uma reserva
+            // Fazer uma reserva (implementar pré-reserva)
             char str[25];
             char name[10];
             char type[2];
             int month, day, hour, min;
             printf("Introduza o nome, tipo e data da marcação no seguinte formato: Nome/tipo DD/MM HH:MM\n");
             fgets(str, 25, stdin);
-            printf("%s\n", str);
             int a = sscanf(str, "%[^/]/%[^ ] %d/%d %d:%d", name, type, &day, &month, &hour, &min);
             if(a != 6)
             {
-                printf("Name: %s\n", name);
-                printf("Type: %s\n", type);
-                printf("Day: %d\n", day);
-                printf("Month: %d\n", month);
-                printf("Hour: %d\n", hour);
-                printf("Minutes: %d\n", min);
-
                 printf("Formato introduzido errado ou erro na leitura.\n");
             }
             else if((min != 0  && min != 30) || 8 > hour || hour >= 18)
@@ -60,7 +52,23 @@ int main()
         }
         else if (strcmp(operation, "CANCELAR") == 0)
         {
-            // Cancelar uma reserva (unfinished)
+            // Cancelar uma reserva (implementar pré-reserva)
+            char str[25];
+            int month, day, hour, min;
+
+            printf("Introduza a data e hora da marcação no seguinte formato: DD/MM HH:MM\n");
+            fgets(str, 25, stdin);
+            int a = sscanf(str, "%d/%d %d:%d", &day, &month, &hour, &min);
+            if(a != 4)
+            {
+                printf("Formato introduzido errado ou erro na leitura.\n");
+            }
+            else
+            {
+                delete(head, dateMin(month, day, hour, min));
+                printf("Marcação cancelada.\n");
+            }
+
         }
         else if (strcmp(operation, "LISTAR") == 0)
         {
@@ -105,7 +113,27 @@ int main()
         }
         else if (strcmp(operation, "GUARDAR") == 0)
         {
-            // Guarda informação num ficheiro (unfinished)
+            // Guarda informação num ficheiro.
+            fp = fopen("data.txt", "w");
+            if(fp != NULL)
+            {
+                int m = 0;
+                int d = 0;
+                int h = 0;
+                int mn = 0;
+
+                list aux = head->next;
+
+                printf("Dados a carregar:\n");
+                while(aux)
+                {
+                    printDate(aux->d.mins, &m, &d, &h, &mn);
+                    fprintf(fp, "%s %d %d %d %d %s\n", aux->d.name, d, m, h, mn, aux->d.type);
+                    aux = aux->next;
+                }
+                printf("Dados carregados.\n");
+                fclose(fp);
+            }
         }
         else if (strcmp(operation, "SAIR") == 0)
         {

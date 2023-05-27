@@ -23,11 +23,10 @@ int dateMin(int month, int day, int hour, int min)
     return minutes;
 }
 
-// Converts minutes to date and prints it
-void printDate(int minutes)
+// Converts minutes to date and prints it (also updates the date variables passed)
+void printDate(int minutes, int *month, int *hour, int *day, int *min)
 {
     int aux_minutes = minutes;
-    int month, hour, day, min;
 
     // Get month
     int i = 0;
@@ -36,7 +35,7 @@ void printDate(int minutes)
         aux_minutes -= days_per_month[i] * 24 * 60;
         i++;
     }
-    month = i + 1;
+    *month = i + 1;
 
     // Get day
     i = 1;
@@ -45,23 +44,23 @@ void printDate(int minutes)
         aux_minutes -= 24 * 60;
         i++;
     }
-    day = i;
+    *day = i;
 
     // Get hour
     i = aux_minutes / 60;
     aux_minutes -= i * 60;
-    hour = i;
+    *hour = i;
 
     // Get min
-    min = aux_minutes;
+    *min = aux_minutes;
 
     if(min == 0)
     {
-        printf("%d/%d %d:%d0\n", day, month, hour, min);
+        printf("%d/%d %d:%d0\n", *day, *month, *hour, *min);
     }
     else
     {
-        printf("%d/%d %d:%d\n", day, month, hour, min);
+        printf("%d/%d %d:%d\n", *day, *month, *hour, *min);
     }
     
 }
@@ -127,11 +126,17 @@ void delete(list head, int min)
 {
     list prev, cur, next;
     search(head, min, &prev, &cur);
-    next = cur->next;
     if(cur != NULL)
     {
-        prev->next = cur->next;
-        next->prev = cur->prev;
+        if(cur->next != NULL)
+        {
+            prev->next = cur->next;
+            next->prev = prev;
+        }
+        else
+        {
+            prev->next = NULL;
+        }
         free(cur);
     }
 }
@@ -167,11 +172,12 @@ void insert(list head, struct Data d)
 void printList(list head)
 {
     list aux = head->next;
+    int month, day, hour, min;
     int i = 0;
     while(aux)
     {
         printf("Nome: %s - Tipo: %s - Data: ", aux->d.name, aux->d.type);
-        printDate(aux->d.mins);
+        printDate(aux->d.mins, &month, &day, &hour, &min);
         aux = aux->next;
     }
 }

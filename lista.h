@@ -4,7 +4,7 @@
 #include "struct.h"
 
 int dateMin(int month, int day, int hour, int min);
-void printDate(int minutes);
+void printDate(int minutes, int *month, int *hour, int *day, int *min);
 list create();
 int isEmpty(list head);
 list destroy(list head);
