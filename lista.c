@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "struct.h"
 
@@ -124,19 +125,33 @@ void search(list head, int min, list *prev, list *cur)
     }
 }
 
-// Deletes a node (if min = 0 ---> deletes first)
+// Deletes a node
 void delete(list head, int min)
 {
 
-    list prev, cur, next;
+    list prev, cur, next, pre;
     search(head, min, &prev, &cur);
     if(cur != NULL)
     {
         next = cur->next;
-        if(next != NULL)
+        pre = cur->prev;
+
+        if(pre != NULL)
+        {
+            if(next != NULL)
+            {
+                prev->next = pre;
+                pre->next = next;
+            }
+            else
+            {
+                prev->next = pre;
+                pre->next = NULL;
+            }
+        }
+        else if(next != NULL)
         {
             prev->next = next;
-            next->prev = prev;
         }
         else
         {
@@ -146,29 +161,133 @@ void delete(list head, int min)
     }
 }
 
+// Liberta o primeiro nó da lista
+void conclude(list head)
+{
+    list temp = head->next;
+    if(temp != NULL)
+    {
+        list next = temp->next;
+        if(next != NULL)
+        {
+            head->next = next;
+        }
+        else
+        {
+            head->next = NULL;
+        }
+        free(temp);
+    }
+}
+
 // Inserts a node
 void insert(list head, struct Data d)
 {
     list node, prev, cur, next;
+    int diff = 0;
+    int diff2 = 0;
     node = (list)malloc(sizeof(Node));
     if(node != NULL)
     {
         node->d = d;
         search(head, d.mins, &prev, &cur);
-        next = prev->next;
-        
-        if(next != NULL)
+
+        if(strcmp(node->d.type, "l") == 0)
         {
-            node->next = next;
-            node->prev = prev;
-            prev->next = node;
-            next->prev = node;
+            diff = 30;  // Tempo de uma lavagem
         }
         else
         {
-            prev->next = node;
-            node->prev = prev;
-            node->next = NULL;
+            diff = 60;  // Tempo de uma manutenção
+        }
+
+        if(strcmp(prev->d.type, "l") == 0)
+        {
+            diff2 = 30;  // Tempo de uma lavagem
+        }
+        else
+        {
+            diff2 = 60;  // Tempo de uma manutenção
+        }
+
+        next = prev->next;
+
+        if(next != NULL)
+        {
+            if(next->d.mins - node->d.mins < diff)
+            {
+                printf("Horário ocupado, guardar pré-reserva.\n");
+                list temp, temp2;
+                temp = next->prev;
+                temp2 = NULL;
+                while(temp != NULL)
+                {
+                    temp2 = temp;
+                    temp = temp->prev;
+                }
+                if(temp2 == NULL)
+                {
+                    temp2 = next;
+                }
+                node->next = temp2;
+                node->prev = NULL;
+                temp2->prev = node;
+
+            }
+            else if(node->d.mins - prev->d.mins < diff2)
+            {
+                printf("Horário ocupado, guardar pré-reserva.\n");
+                list temp, temp2;
+                temp = prev->prev;
+                temp2 = NULL;
+                while(temp != NULL)
+                {
+                    temp2 = temp;
+                    temp = temp->prev;
+                }
+                if(temp2 == NULL)
+                {
+                    temp2 = prev;
+                }
+                node->prev = temp2;
+                node->prev = NULL;
+                temp2->prev = node;
+            }
+            else
+            {
+                node->next = next;
+                node->prev = NULL;
+                prev->next = node;
+                next->prev = NULL;
+            }
+        }
+        else
+        {
+            if(node->d.mins - prev->d.mins < diff2)
+            {
+                printf("Horário ocupado, guardar pré-reserva.\n");
+                list temp, temp2;
+                temp = prev->prev;
+                temp2 = NULL;
+                while(temp != NULL)
+                {
+                    temp2 = temp;
+                    temp = temp->prev;
+                }
+                if(temp2 == NULL)
+                {
+                    temp2 = prev;
+                }
+                node->prev = temp2;
+                node->prev = NULL;
+                temp2->prev = node;
+            }
+            else
+            {
+                prev->next = node;
+                node->prev = NULL;
+                node->next = NULL;
+            }
         }
     }
 }
@@ -183,6 +302,17 @@ void printList(list head)
     {
         printf("Nome: %s - Tipo: %s - Data: ", aux->d.name, aux->d.type);
         printDate(aux->d.mins, &month, &day, &hour, &min);
+        
+        if(aux->prev != NULL)
+        {
+            list prev = aux->prev;
+            while(prev)
+            {
+                printf("Pré-reserva - Nome: %s - Tipo: %s - Data: ", prev->d.name, prev->d.type);
+                printDate(prev->d.mins, &month, &day, &hour, &min);
+                prev = prev->prev;
+            }
+        }
         aux = aux->next;
     }
 }

@@ -19,7 +19,7 @@ int main()
 
         if (strcmp(operation, "RESERVAR") == 0)
         {
-            // Fazer uma reserva (implementar pré-reserva)
+            // Fazer uma reserva
             char str[25];
             char name[10];
             char type[2];
@@ -52,7 +52,7 @@ int main()
         }
         else if (strcmp(operation, "CANCELAR") == 0)
         {
-            // Cancelar uma reserva (implementar pré-reserva)
+            // Cancelar uma reserva
             char str[25];
             int month, day, hour, min;
 
@@ -93,13 +93,23 @@ int main()
                     printf("Tipo: %s - ", aux->d.type);
                     printDate(aux->d.mins, &month, &day, &hour, &min);
                 }
+                if(aux->prev != NULL)
+                {
+                    list prev = aux->prev;
+                    while(prev)
+                    {
+                        printf("Pré-reserva - Tipo: %s - Data: ", prev->d.type);
+                        printDate(prev->d.mins, &month, &day, &hour, &min);
+                        prev = prev->prev;
+                    }
+                }
                 aux = aux->next;
             }
         }
         else if (strcmp(operation, "CONCLUIR") == 0)
         {
-            // Concluir uma lavagem ou manutenção (implementar pré-reserva)
-            delete(head, 0);    // Passing 0 as argument so it always deletes the first node of the list
+            // Concluir uma lavagem ou manutenção
+            conclude(head);
             printf("Lavagem mais recente concluída.\n");
         }
         else if (strcmp(operation, "CARREGAR") == 0)
