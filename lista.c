@@ -6,30 +6,29 @@
 
 int days_per_month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-// Converts a date to minutes
+// Converte data para minutos
 int dateMin(int month, int day, int hour, int min)
 {
     int minutes = 0;
 
-    // Number of minutes in the months
+    // NUmero de minutos nos meses dados
     for (int i = 0; i < month - 1; i++)
     {
         minutes += days_per_month[i] * 24 * 60;
     }
 
-    minutes += (day - 1) * 24 * 60; // Days
-    minutes += hour * 60;           // Hours
-    minutes += min;                 // Remaining minutes
-
+    minutes += (day - 1) * 24 * 60; // Dias
+    minutes += hour * 60;           // Horas
+    minutes += min;                 // Minutos restantes
     return minutes;
 }
 
-// Converts minutes to date and prints it (also updates the date variables passed)
+// Converte minutos para uma data (tambem atualiza as variaveis passadas como parametros)
 void printDate(int minutes, int *month, int *hour, int *day, int *min)
 {
     int aux_minutes = minutes;
 
-    // Get month
+    // Meses
     int i = 0;
     while (aux_minutes >= days_per_month[i] * 24 * 60)
     {
@@ -38,7 +37,7 @@ void printDate(int minutes, int *month, int *hour, int *day, int *min)
     }
     *month = i + 1;
 
-    // Get day
+    // Dias
     i = 1;
     while (aux_minutes >= 24 * 60)
     {
@@ -47,12 +46,12 @@ void printDate(int minutes, int *month, int *hour, int *day, int *min)
     }
     *day = i;
 
-    // Get hour
+    // Horas
     i = aux_minutes / 60;
     aux_minutes -= i * 60;
     *hour = i;
 
-    // Get min
+    // Minutos
     *min = aux_minutes;
 
     if(*min == 0)
@@ -66,7 +65,7 @@ void printDate(int minutes, int *month, int *hour, int *day, int *min)
     
 }
 
-// Creates doubly linked list
+// Cria lista duplamente ligada
 list create()
 {
     list aux;
@@ -82,16 +81,16 @@ list create()
     return aux;
 }
 
-// Checks if the list is empty
+// Verifica se a lista esta vazia
 int isEmpty(list head)
 {
     if (head->next == NULL)
-        return 1; // Retruns 1 if empty
+        return 1; // Retrun 1 se sim
     else
-        return 0; // Returns 0 if not
+        return 0; // Return 0 se nao
 }
 
-// Destroys the list and frees the space
+// Destroi a lista e liberta o espaco
 list destroy(list head)
 {
     list temp;
@@ -105,7 +104,7 @@ list destroy(list head)
     return NULL;
 }
 
-// Searches for a place to insert a new node
+// Procura por um no especifico da lista
 void search(list head, int min, list *prev, list *cur)
 {
     *prev = head;
@@ -125,7 +124,7 @@ void search(list head, int min, list *prev, list *cur)
     }
 }
 
-// Deletes a node
+// Apaga um no
 void delete(list head, int min)
 {
 
@@ -180,7 +179,7 @@ void conclude(list head)
     }
 }
 
-// Inserts a node
+// Insere um novo no
 void insert(list head, struct Data d)
 {
     list node, prev, cur, next;
@@ -214,6 +213,7 @@ void insert(list head, struct Data d)
 
         if(next != NULL)
         {
+            // Horario indisponivel
             if(next->d.mins - node->d.mins < diff)
             {
                 printf("Horário ocupado, guardar pré-reserva.\n");
@@ -234,6 +234,7 @@ void insert(list head, struct Data d)
                 temp2->prev = node;
 
             }
+            // Horario indisponivel
             else if(node->d.mins - prev->d.mins < diff2)
             {
                 printf("Horário ocupado, guardar pré-reserva.\n");
@@ -263,6 +264,7 @@ void insert(list head, struct Data d)
         }
         else
         {
+            // Horario indisponivel
             if(node->d.mins - prev->d.mins < diff2)
             {
                 printf("Horário ocupado, guardar pré-reserva.\n");
@@ -292,12 +294,11 @@ void insert(list head, struct Data d)
     }
 }
 
-// Prints every data stored on the list
+// Imprime todos os dados guardados na lista, reservas e pre-reservas
 void printList(list head)
 {
     list aux = head->next;
     int month, day, hour, min;
-    int i = 0;
     while(aux)
     {
         printf("Nome: %s - Tipo: %s - Data: ", aux->d.name, aux->d.type);

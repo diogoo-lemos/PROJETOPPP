@@ -15,7 +15,7 @@ int main()
     {
         printf("Indique a operação: \n");
         scanf("%s", operation);
-        getchar(); // Consume newline character
+        getchar(); // Consome o \n
 
         if (strcmp(operation, "RESERVAR") == 0)
         {
@@ -78,14 +78,13 @@ int main()
         }
         else if (strcmp(operation, "LISTAR_CLIENTE") == 0)
         {
-            // Listar todas as marcações de um cliente. (implementar pré-reserva)
+            // Listar todas as marcações de um cliente.
             char name[10];
             printf("Introduza um nome:\n");
             scanf("%s", name);
 
             list aux = head->next;
             int month, day, hour, min;
-            int i = 0;
             while(aux)
             {
                 if(strcmp(aux->d.name, name) == 0)

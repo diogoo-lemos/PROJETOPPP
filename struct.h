@@ -8,9 +8,9 @@ typedef struct Data{
 }Data;
 
 typedef struct Node{
-    struct list_node *prev;
+    struct Node *prev;
     struct Data d;
-    struct list_node *next;
+    struct Node *next;
 
 }Node;
 

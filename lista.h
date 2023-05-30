@@ -10,6 +10,7 @@ int isEmpty(list head);
 list destroy(list head);
 void search(list head, int min, list *prev, list *cur);
 void delete(list head, int min);
+void conclude(list head);
 void insert(list head, struct Data d);
 void printList(list head);
 
