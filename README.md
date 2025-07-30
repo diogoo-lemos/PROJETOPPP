@@ -16,7 +16,7 @@ This C program manages reservations for car washes (`l`) and maintenance service
 ├── lista.h # List function declarations\
 ├── main.c # Command-line interface\
 ├── README.md # This file\
-└── struct.h # Data structure definitions\
+└── struct.h # Data structure definitions
 
 
 ## Requirements
