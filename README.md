@@ -11,12 +11,12 @@ This C program manages reservations for car washes (`l`) and maintenance service
 - **Service Completion**: Remove completed services from schedule
 
 ## File Structure
-├── data.txt # Reservation database
-├── lista.c # Linked list implementation
-├── lista.h # List function declarations
-├── main.c # Command-line interface
-├── README.md # This file
-└── struct.h # Data structure definitions
+├── data.txt # Reservation database\
+├── lista.c # Linked list implementation\
+├── lista.h # List function declarations\
+├── main.c # Command-line interface\
+├── README.md # This file\
+└── struct.h # Data structure definitions\
 
 
 ## Requirements
