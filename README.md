@@ -90,14 +90,14 @@ gcc -o scheduler main.c lista.c
 
 ## Compilation & Execution
 1. **Compile the program**:
-   make
+ make
 
-This will create an executable named ppp_project.
+2. This will create an executable named ppp_project.
 
-Run the program in a terminal:
+3. Run the program in a terminal:
 ./ppp_project
 
-At runtime:
+4. At runtime:
 
 The program loads existing reservations from data.txt (if available)
 
@@ -107,7 +107,7 @@ Enter commands like RESERVAR, LISTAR, etc.
 
 ## Example Usage
 
-# After compiling:
+### After compiling:
 ./ppp_project
 
 Indique a operação: 
